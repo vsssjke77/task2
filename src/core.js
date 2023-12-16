@@ -1,23 +1,89 @@
 //Напишите функцию, которая проверяет, является ли число целым используя побитовые операторы
-function isInteger(n) {}
+function isInteger(n) {
+    if (n === ~~n) {
+        return true
+    }
+    else {
+        return false
+    }
+}
 
 //Напишите функцию, которая возвращает массив четных чисел от 2 до 20 включительно
-function even() {}
+function even() {
+    const arr = []
+    for (let i = 2; i < 21; i++) {
+        if (i % 2 == 0)
+        {
+            arr.push(i)
+        }
+        
+    }
+    return arr
+}
 
 //Напишите функцию, считающую сумму чисел до заданного используя цикл
-function sumTo(n) {}
+function sumTo(n) {
+    let sum = 0;
+    for (let i = 0; i < n + 1; i++) {
+        sum += i;
+    }
+    return sum
+}
 
 //Напишите функцию, считающую сумму чисел до заданного используя рекурсию
-function recSumTo(n) {}
+function recSumTo(n, sum = 0) {
+    if (n > 0) {
+        return recSumTo(n - 1, sum + n); // Рекурсивный вызов с обновленным значением sum
+    } else {
+        return sum;
+    }
+}
 
 //Напишите функцию, считающую факториал заданного числа
-function factorial(n) {}
+function factorial(n) {
+    if (n < 0) {
+        return "Факториал определен только для неотрицательных чисел.";
+    }
+    let fak = 1;
+    for (let i = 1; i < n + 1; i++) {
+        fak *= i
+    }
+    return fak
+}
 
 //Напишите функцию, которая определяет, является ли число двойкой, возведенной в степень
-function isBinary(n) {}
+function isBinary(n) {
+    if (n <= 0) {
+        return false;
+    }
+    return (n & (n - 1)) === 0;
+}
 
 //Напишите функцию, которая находит N-е число Фибоначчи
-function fibonacci(n) {}
+function fibonacci(n) {
+    if (n <= 0) {
+        return "Введите положительное целое число для нахождения числа Фибоначчи.";
+    }
+    else if (n === 1) {
+        return 1;
+    }
+    else if (n === 2) {
+        return 1;
+    }
+    else {
+        let a = 1;
+        let b = 1;
+        let result;
+
+        for (let i = 3; i <= n; i++) {
+            result = a + b;
+            a = b;
+            b = result;
+        }
+
+        return result;
+    }
+}
 
 /** Напишите функцию, которая принимает начальное значение и функцию операции
  * и возвращает функцию - выполняющую эту операцию.
@@ -30,7 +96,14 @@ function fibonacci(n) {}
  * console.log(sumFn(5)) - 15
  * console.log(sumFn(3)) - 18
  */
-function getOperationFn(initialValue, operatorFn) {}
+function getOperationFn(initialValue, operatorFn = (a, b) => a) {
+    let storedValue = initialValue;
+
+    return function (newValue) {
+        storedValue = operatorFn(storedValue, newValue);
+        return storedValue;
+    };
+}
 
 /**
  * Напишите функцию создания генератора арифметической последовательности.
@@ -48,7 +121,17 @@ function getOperationFn(initialValue, operatorFn) {}
  * console.log(generator()); // 7
  * console.log(generator()); // 9
  */
-function sequence(start, step) {}
+function sequence(start = 0, step = 1) {
+    let currentValue = start;
+
+    function generator() {
+        const value = currentValue;
+        currentValue += step;
+        return value;
+    }
+
+    return generator;
+}
 
 /**
  * Напишите функцию deepEqual, которая принимает два значения
@@ -64,7 +147,44 @@ function sequence(start, step) {}
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 33], text: 'text'}) // true
  * deepEqual({arr: [22, 33], text: 'text'}, {arr: [22, 3], text: 'text2'}) // false
  */
-function deepEqual(firstObject, secondObject) {}
+function deepEqual(firstObject, secondObject) {
+    if (firstObject !== firstObject && secondObject !== secondObject) {
+        return true; // Оба значения - NaN
+    }
+
+    if (firstObject === secondObject) {
+        // Обработка случая, когда значения равны (включая NaN)
+        return true;
+    }
+
+    if (
+        firstObject === null ||
+        typeof firstObject !== 'object' ||
+        secondObject === null ||
+        typeof secondObject !== 'object'
+    ) {
+        return false;
+    }
+
+    const keysFirst = Object.keys(firstObject);
+    const keysSecond = Object.keys(secondObject);
+
+    if (keysFirst.length !== keysSecond.length) {
+        return false;
+    }
+
+    for (let key of keysFirst) {
+        if (!keysSecond.includes(key) || !deepEqual(firstObject[key], secondObject[key])) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+function dummyFunction() {
+    // Функция-заглушка для примера
+}
 
 module.exports = {
     isInteger,
